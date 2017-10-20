@@ -35,8 +35,17 @@ Balles = [Balles Balle];
 
 
 % Obstacles (table et filet)
-Table = [0 0 0.76;
-        2.74 0 0.76;
+TableJoueur = [0 0 0.76;
+        1.37 0 0.76;
         0 1.525 0.76;
+        1.37 1.525 0.76];
+TableOpposant = [1.37 0 0.76;
+        2.74 0 0.76;
+        1.37 1.525 0.76;
         2.74 1.525 0.76];
-    
+Filet = [1.37 -0.1525 0.76;
+        1.37 -0.1525 0.9125;
+        1.37 1.6775 0.9125;
+        1.37 1.6775 0.76];   
+        
+Obstacles = [TableJoueur, TableOpposant, Filet];
