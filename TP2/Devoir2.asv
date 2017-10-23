@@ -6,11 +6,9 @@ initialisation();
 Balle = Sphere();
 Balle.Masse = 2.74;
 Balle.Rayon = 0.0199;
-Balle.Position = rbi;
-Balle.Vitesse = vbi;
-Balle.VitesseAngulaire = wbi;
+Balle.Position 
 
-Simulation(1, Balle);
+Simulation(1, 
 
 
 

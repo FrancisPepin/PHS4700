@@ -4,7 +4,7 @@ clf;
 
 initialisation();
 
-Simulation(1, Balles(1), Obstacles);
+Simulation(
 
 Forces.gravite(Balles(1));
 

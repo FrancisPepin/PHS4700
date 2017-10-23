@@ -1,7 +1,7 @@
 classdef Forces
     % Force appliquee sur les objets
     
-    properties
+    properties (Constant)
         rho = 1.2;      % Masse volumique de l'air (1.2 kg/m^3)
         Cv = 0.5;       % Coefficient de frottement visqueux
         Cm = 0.29;  % Coefficient de Magnus
@@ -9,7 +9,7 @@ classdef Forces
     
     methods(Static)
         function force = Gravite(objet)
-            force = objet.Masse * [0 0 -9.81]';
+            force = objet.Masse * [0 0 -9.81];
         end
         
         function force = Visqueux(objet, v)
@@ -19,6 +19,10 @@ classdef Forces
         
         function force = Magnus(objet, v, w)
             force = 4 * pi * Forces.Cm * Forces.rho * objet.Rayon^3 * cross(w, v);
+        end
+        
+        function vitesse = Vitesse(vi, a, dt)
+            vitesse = vi + a*dt;
         end
     end
     
