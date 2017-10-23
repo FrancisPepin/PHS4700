@@ -1,4 +1,4 @@
-function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
+function [coup, resultat] = Simulation(option, balle, obstacle, trace)
 %SIMULATION Summary of this function goes here
 %   Detailed explanation goes here
     epsilon = 0.001;
@@ -7,9 +7,12 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
     t0 = 0;
     t1 = t0;
     
-    TableJoueur = obstacle(:,1);
-    TableOpposant = obstacle(:,2);
-    Filet = obstacle(:,3);
+    TableJoueurA = obstacle(:,1)';
+    TableJoueurB = obstacle(:,2)';
+    TableOpposantA = obstacle(:,3)';
+    TableOpposantB = obstacle(:,4)';
+    FiletA = obstacle(:,5)';
+    FiletB = obstacle(:,6)';
     
     switch option
       case 1
@@ -20,6 +23,9 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
         g = 'option3';
     end
     
+    trace.Ajouter(t0, balle.Position, balle.Vitesse);
+    resultat = trace;
+    
     coup = -1;
     while coup == -1
       t0 = t1;
@@ -28,7 +34,21 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
       balle.Vitesse = qs(1:3);
       balle.Position = qs(4:6);
       
-      colJoueur = Collision(balle.Position, balle.
+      disp(balle.Position);
+      
+      if(Collision(balle.Position, balle.Rayon, TableOpposantA, TableOpposantB))
+          coup = 0;
+      end
+      if(Collision(balle.Position, balle.Rayon, TableJoueurA, TableJoueurB))
+          coup = 1;
+      end
+      if(Collision(balle.Position, balle.Rayon, FiletA, FiletB))
+          coup = 2;
+      end
+      if(balle.Position(3) - balle.Rayon <= 0)
+          coup = 3;
+      end
+      
       
       %{
       if (q0(4) + balle.Rayon < Filet(1))... % si la balle n'a pas depasse le filet a l'iteration precedente
@@ -67,6 +87,9 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
       %}
       t1 = t0 + pas;
     end
+    
+    resultat = trace;
+    disp(balle.Position);
 end
 
 function [tf, rbf, vbf]=calculerValeursFinalesZInf(t0,t1,pas,epsilon,q0,balle,zCible)

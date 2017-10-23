@@ -1,8 +1,8 @@
-function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
+function [coup, resultat] = Simulation(option, balle, obstacle, trace)
 %SIMULATION Summary of this function goes here
 %   Detailed explanation goes here
     epsilon = 0.001;
-    pas = 0.01;
+    pas = 0.001;
     q0 = [balle.Vitesse balle.Position];
     t0 = 0;
     t1 = t0;
@@ -23,6 +23,9 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
         g = 'option3';
     end
     
+    trace.Ajouter(t0, balle.Position, balle.Vitesse);
+    resultat = trace;
+    
     coup = -1;
     while coup == -1
       t0 = t1;
@@ -30,8 +33,6 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
       qs = SEDRK4t0(q0,t0,pas,g, balle);
       balle.Vitesse = qs(1:3);
       balle.Position = qs(4:6);
-      
-      disp(balle.Position);
       
       if(Collision(balle.Position, balle.Rayon, TableOpposantA, TableOpposantB))
           coup = 0;
@@ -46,46 +47,11 @@ function [coup, tf, rbf, vbf] = Simulation(option, balle, obstacle)
           coup = 3;
       end
       
-      
-      %{
-      if (q0(4) + balle.Rayon < Filet(1))... % si la balle n'a pas depasse le filet a l'iteration precedente
-        && balle.Position(1) + balle.Rayon >= Filet(1) % si la balle depasse le filet
-        
-        [tf, rbf, vbf] = calculerValeursFinalesXSup(t0,t1,pas,epsilon,q0,balle,Filet(1));
-            % calcul de la position precise de la balle au moement de depasser le filet
-            
-        if rbf(2) - balle.Rayon <= Filet(7) && rbf(2) + balle.Rayon >= Filet(5) ...
-          && rbf(3) - balle.Rayon <= Filet(10) && rbf(3) + balle.Rayon >= Filet(9)
-              % si la balle se situe a l'interieur des limites du filet
-          coup = 2;
-        end
-        
-      elseif q0(6) - balle.Rayon > TableJoueur(4) ... % si la balle n'a pas depasse la table a l'iteration precedente
-        && balle.Position(3) - balle.Rayon <= TableJoueur(4) % si la balle touche ou va sous la table
-        
-        [tf, rbf, vbf] = calculerValeursFinalesZInf(t0,t1,pas,epsilon,q0,balle,TableJoueur(9));
-            % calcul de la position precise de la balle au moment de depasser la table
-            
-        if rbf(1) + balle.Rayon >= TableJoueur(1) && rbf(1) - balle.Rayon <= TableOpposant(2) ...
-          && rbf(2) + balle.Rayon >= TableJoueur(5) && rbf(2) - balle.Rayon <= TableJoueur(7) 
-              % si la balle se situe a l'interieur des limites de la table
-          if rbf(1) + balle.Rayon >= TableOpposant(1) % si la balle touche la table du cote de l'opposant
-            coup = 0;
-          else  % sinon (si la balle touche la table du cote du joueur)
-            coup = 1;
-          end
-        end
-        
-      elseif balle.Position(3) - balle.Rayon <= 0 % si la balle touche le sol
-          [tf, rbf, vbf] = calculerValeursFinalesZInf(t0,t1,pas,epsilon,q0,balle,0);
-              % calcul de la position precise de la balle au moment de toucher le sol
-          coup = 3;
-      end      
-      %}
-      t1 = t0 + pas;
+    t1 = t0 + pas;
+    trace.Ajouter(t1, balle.Position, balle.Vitesse);
     end
     
-    disp(balle.Position);
+    resultat = trace;
 end
 
 function [tf, rbf, vbf]=calculerValeursFinalesZInf(t0,t1,pas,epsilon,q0,balle,zCible)
