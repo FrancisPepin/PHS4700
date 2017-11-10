@@ -14,13 +14,13 @@ classdef Voiture
     end
     
     methods
-        function voiture = Voiture(m,L,l,h,r,R,v,vAng)
+        function voiture = Voiture(m,L,l,h,r,rAng,v,vAng)
             voiture.m = m;
             voiture.L = L;
             voiture.l = l;
             voiture.h = h;
             voiture.r = r;
-            voiture.R = R
+            voiture.rAng = rAng
             voiture.v = v;
             voiture.vAng = vAng;
         end
