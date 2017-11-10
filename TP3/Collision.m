@@ -1,4 +1,4 @@
-function [coll] = Collision(A, B)
+function [Coll, raf, vaf, rbf, vbf] = Collision(A, B)
 qA1 = (A.r + [A.h/2 A.L/2 A.l/2])*([A.R(1:3);A.R(4:6);A.R(7:9)])
 qA2 = (A.r + [A.h/2 A.L/2 -A.l/2])*([A.R(1:3);A.R(4:6);A.R(7:9)])
 qA3 = (A.r + [A.h/2 -A.L/2 A.l/2])*([A.R(1:3);A.R(4:6);A.R(7:9)])
@@ -20,6 +20,8 @@ qA8 = (B.r + [-B.h/2 -B.L/2 -B.l/2])*([B.R(1:3);B.R(4:6);B.R(7:9)])
 for i = [1 2 3 4]
     
 end
+
+
 
 end
 

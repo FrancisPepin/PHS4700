@@ -1,4 +1,4 @@
-function [Coll tf voitureA voitureB resultat] = Simulation(voitureA,voitureB,tb,trace)
+function [Coll tf raf vaf rbf vbf resultat] = Simulation(voitureA,voitureB,tb,trace)
 %UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
 deltat = 0.0001;
@@ -6,9 +6,9 @@ t0 = 0;
 qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.R];
 qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.R];
 
-collision = False;
+Coll = 1;
 
-while not(collision)
+while Coll == 1 and norm(voitureA.v(1:2)) > 0.01 and norm(voitureA.v(1:2)) > 0.01
     qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.R];
     qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.R];
     qAs = SEDRK4t0(qA0,t0,deltat,avecF,voiture);
@@ -24,6 +24,7 @@ while not(collision)
     voitureB.r = qBs(4:6);
     voitureB.R = qBs(10:18);
     t0 = t0+deltat;
+    [Coll raf vaf rbf vbf] = Collison(voitureA, voitureB);
 end
 end
 
