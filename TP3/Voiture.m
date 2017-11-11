@@ -11,8 +11,6 @@ classdef Voiture
         rAng
         v
         vAng
-        plans %matrice dont chaque ligne est un vecteur correspondant a [p1 p2 q1] (qui sont eux-memes des vecteurs)
-        coins %matrice dont les lignes sont les vecteurs correspondant aux 4 coins du solide situes a z=0.
     end
     
     methods
@@ -26,6 +24,14 @@ classdef Voiture
             voiture.v = v;
             voiture.vAng = vAng;
             %definir plans et coins
+        end
+        
+        function plans = getPlans()
+          %retourne une matrice dont chaque ligne est un vecteur correspondant a [p1 p2 q1] (qui sont eux-memes des vecteurs)
+        end
+        
+        function coins = getCoins()
+          %retourne une matrice dont les lignes sont les vecteurs correspondant aux 4 coins du solide situes a z=0.
         end
     end
     

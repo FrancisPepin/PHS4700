@@ -22,16 +22,20 @@ coefRest = 0.8;
 %qA8 = (B.r + [-B.h/2 -B.L/2 -B.l/2])*([B.R(1:3);B.R(4:6);B.R(7:9)]);
 Coll = 1;
 
-for i = [1 2 3 4]
-    n = cross(A.plans(i)(1), A.plans(i)(2));
+plans = A.getPlans();
+coins = B.getCoins();
+for plan = plans
+    n = cross(plan(1), plan(2));
     n = n/norm(n);
-    for j = [1 2 3 4]
-      d = dot(n, A.plans(i)(3) - B.coins(j));
+    for coin = coins
+      d = dot(n, plan(3) - coin);
       if d < 0
         Coll = 0;
       end
     end
 end
+
+%changer les for pour des while en ajoutant la condition coll=1 pour éviter d'itérer sur tout tout le temps.
 
 if Coll == 1
   vr = dot(n, (vap - vbp));
