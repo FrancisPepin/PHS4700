@@ -15,7 +15,7 @@ traceB.Ajouter(t0, voitureB.r, voitureB.v);
 resultatA = traceA;
 resultatB = traceB;
 
-while Coll == 1 && norm(voitureA.v(1:2)) > 0.01 && norm(voitureA.v(1:2)) > 0.01
+while Coll == 1 && (norm(voitureA.v(1:2)) > 0.01 || norm(voitureB.v(1:2)) > 0.01)%0.01
     % on initialise qA et qB avec les valeurs actuelles de voitureA et voitureB.
     qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.rAng];
     qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.rAng];
