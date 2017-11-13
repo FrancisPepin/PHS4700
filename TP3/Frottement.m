@@ -1,7 +1,7 @@
 function [F] = Frottement(v,m)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
-    g = 9.8;
+% Retourne la force de frottement causee par un solide de vitesse v et de masse m.
+% Les valeurs des coefficients de frottement sont definis par les instructions du devoir.
+    g = 9.8; % acceleration gravitationnelle a la surface de la Terre.
     if norm(v) > 50
         mu = 0.075;
     else

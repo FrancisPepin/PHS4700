@@ -1,12 +1,43 @@
-function [Coll, A, B] = Collision(A, B)%raf, vaf, rbf, vbf] = Collision(A, B)
+function [Coll, A, B] = Collision(A, B)
+%Retourne Coll=0 si il y a collision ou Coll=1 sinon. Si il y a collision, calcule
+%les nouvelles valeurs de vitesses de A et B.
 
 coefRest = 0.8;
 err = 0.01;
   
 Coll = 0;
 
+%On cherche un plan de division entre A et B.
 plans = A.getPlans();
 coins = B.getCoins();
+i = 1;
+minD = inf;
+while (i <= 4 && Coll == 0) 
+    n = cross(plans(i,1:3), plans(i,4:6));
+    n = n/norm(n);
+    k = 1;
+    coinsDehors = 1;
+    while (k <= 4)
+      d = dot(n, plans(i,7:9) - coins(k,:));
+      if d <= 0
+        coinsDehors = 0;
+        if d < minD
+            minD = d;
+            p = coins(k,:);
+        end
+      end
+      k = k + 1;
+    end
+    if coinsDehors == 1
+        Coll = 1;
+        %On a trouve un plan de division.
+    end
+    i = i + 1;
+end
+
+%Si on n'a pas trouve de plan de division, on en cherche un entre B et A.
+plans = B.getPlans();
+coins = A.getCoins();
 i = 1;
 minD = inf;
 while (i <= 4 && Coll == 0) 
@@ -32,7 +63,7 @@ while (i <= 4 && Coll == 0)
 end
 
 
-if Coll == 0
+if Coll == 0 %Si pas de plan de division trouve, donc si collision
   rap = [A.r 0] - p;
   rbp = [B.r 0] - p;
     
@@ -53,14 +84,6 @@ if Coll == 0
   vbfTemp = ([B.v 0] + n*j/B.m);
   A.v = vafTemp(1:2);
   B.v = vbfTemp(1:2);
-  %vaf = [vafTemp(1:2) A.vAng];
-  %vbf = [vbfTemp(1:2) B.vAng];
-%else
-  %vaf = [A.v A.vAng];
-  %vbf = [B.v B.vAng];
 end
-  %raf = [A.r A.rAng];
-  %rbf = [B.r B.rAng];
-
 end
 
