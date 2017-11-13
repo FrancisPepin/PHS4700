@@ -69,7 +69,7 @@ classdef Voiture
         
         function coins = getCoins(this)
           %retourne une matrice dont les lignes sont les vecteurs correspondant aux 4 coins du solide situes a z=0.
-            R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
+            R = [cos(this.rAng) -sin(this.rAng) 0; sin(this.rAng) cos(this.rAng) 0; 0 0 1];
             coin1 = ([this.r 0] + [this.L/2 this.l/2 0]*R);
             coin2 = ([this.r 0] + [-this.L/2 this.l/2 0]*R);
             coin3 = ([this.r 0] + [this.L/2 -this.l/2 0]*R);
@@ -78,22 +78,19 @@ classdef Voiture
         end
         
         function IInv = getIInv(this)
-            R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
+            R = [cos(this.rAng) -sin(this.rAng) 0; sin(this.rAng) cos(this.rAng) 0; 0 0 1];
             IInv = inv(R*this.I*transpose(R));
         end
         
         function dessiner(this, couleur)
             hold on
-            R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
+            R = [cos(this.rAng) -sin(this.rAng) 0; sin(this.rAng) cos(this.rAng) 0; 0 0 1];
             coin1 = ([this.r 0] + [this.L/2 this.l/2 0]*R);
             coin2 = ([this.r 0] + [-this.L/2 this.l/2 0]*R);
-            coin3 = ([this.r 0] + [-this.L/2 -this.l/2 0]*R);
-            coin4 = ([this.r 0] + [this.L/2 -this.l/2 0]*R);
+            coin3 = ([this.r 0] + [this.L/2 -this.l/2 0]*R);
+            coin4 = ([this.r 0] + [-this.L/2 -this.l/2 0]*R);
+            coins2D = [coin1(1:2),coin2(1:2),coin3(]
             
-            x = [coin1(1),coin2(1),coin3(1),coin4(1)];
-            y = [coin1(2),coin2(2),coin3(2),coin4(2)];
-            fill(x,y,couleur);
-        end
     end
 end
 

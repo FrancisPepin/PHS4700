@@ -1,7 +1,7 @@
-function [Coll tf voitureA voitureB resultatA resultatB] = Simulation(voitureA,voitureB,tb,traceA,traceB) %raf vaf rbf vbf resultatA, resultatB] = Simulation(voitureA,voitureB,tb,traceA,traceB)
+function [Coll tf voitureA voitureB resultatA resultatB] = %raf vaf rbf vbf resultatA, resultatB] = Simulation(voitureA,voitureB,tb,traceA,traceB)
 %UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
-deltat = 0.001;
+deltat = 0.01;
 t0 = 0;
 qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.rAng];
 qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.rAng];
