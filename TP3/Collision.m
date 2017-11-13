@@ -52,6 +52,7 @@ while (i <= 4 && Coll == 0)
         if d < minD
             minD = d;
             p = coins(k,:);
+            nColl = n;
         end
       end
       k = k + 1;
@@ -69,19 +70,19 @@ if Coll == 0 %Si pas de plan de division trouve, donc si collision
     
   vap = [A.v 0] + cross([0 0 A.vAng], rap);
   vbp = [B.v 0] + cross([0 0 B.vAng], rbp);
-  vr = dot(n, (vap - vbp));
-  Ga = dot(n, transpose(A.getIInv()*transpose(cross(cross(rap,n),rap))));
-  Gb = dot(n, transpose(B.getIInv()*transpose(cross(cross(rbp,n),rbp))));
+  vr = dot(nColl, (vap - vbp));
+  Ga = dot(nColl, transpose(A.getIInv()*transpose(cross(cross(rap,n),rap))));
+  Gb = dot(nColl, transpose(B.getIInv()*transpose(cross(cross(rbp,n),rbp))));
   j = -1*(1+coefRest)*vr/(1/A.m + 1/B.m + Ga + Gb);
   
-  vAngATemp = [0 0 A.vAng] + transpose(A.getIInv()*transpose((cross(rap,n*j))));
-  vAngBTemp = [0 0 B.vAng] + transpose(B.getIInv()*transpose((cross(rbp,n*j))));
+  vAngATemp = [0 0 A.vAng] + transpose(A.getIInv()*transpose((cross(rap,nColl*j))));
+  vAngBTemp = [0 0 B.vAng] + transpose(B.getIInv()*transpose((cross(rbp,nColl*j))));
   
   A.vAng = vAngATemp(3);
   B.vAng = vAngBTemp(3);
   
-  vafTemp = ([A.v 0] + n*j/A.m);
-  vbfTemp = ([B.v 0] + n*j/B.m);
+  vafTemp = ([A.v 0] + nColl*j/A.m);
+  vbfTemp = ([B.v 0] + nColl*j/B.m);
   A.v = vafTemp(1:2);
   B.v = vbfTemp(1:2);
 end
