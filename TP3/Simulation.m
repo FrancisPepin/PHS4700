@@ -3,7 +3,7 @@ function [Coll tf voitureA voitureB resultatA resultatB] = Simulation(voitureA,v
 % ou que les deux voitures s'arretent (v < 0.01) et enregistre leurs positions a
 % chaque temps pour les afficher sur un graphique par la suite.
 
-deltat = 0.001;
+deltat = 0.002;
 t0 = 0;
 qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.rAng];
 qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.rAng];
@@ -15,7 +15,9 @@ traceB.Ajouter(t0, voitureB.r, voitureB.v);
 resultatA = traceA;
 resultatB = traceB;
 
-while Coll == 1 && norm(voitureA.v(1:2)) > 0.01 && norm(voitureA.v(1:2)) > 0.01
+max = 0;
+
+while Coll == 1 && (norm(voitureA.v(1:2)) > 0.01 || norm(voitureB.v(1:2)) > 0.01)
     % on initialise qA et qB avec les valeurs actuelles de voitureA et voitureB.
     qA0 = [voitureA.v voitureA.r voitureA.vAng voitureA.rAng];
     qB0 = [voitureB.v voitureB.r voitureB.vAng voitureB.rAng];
@@ -36,6 +38,15 @@ while Coll == 1 && norm(voitureA.v(1:2)) > 0.01 && norm(voitureA.v(1:2)) > 0.01
     voitureB.r = qBs(3:4);
     voitureB.rAng = qBs(6);
 
+    
+    if (voitureA.r(1) >= max)
+        max = voitureA.r(1);
+    end
+    
+    if(voitureA.r(1) >= 80.1889)
+        test =0;
+    end
+    
     t0 = t0+deltat;
     % on verifie s'il y a une collision.
     [Coll voitureA voitureB] = Collision(voitureA, voitureB); 

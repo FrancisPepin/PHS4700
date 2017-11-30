@@ -30,7 +30,7 @@ classdef Voiture
         
         function plans = getPlans(this)
           %retourne une matrice dont chaque ligne est un vecteur correspondant a [p1 p2 q1] (qui sont eux-memes des vecteurs)
-            R = [cos(this.rAng) -sin(this.rAng) 0; sin(this.rAng) cos(this.rAng) 0; 0 0 1];
+            R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
             %plan avant(cote court vers +x):
             q1 = ([this.r 0] + [this.L/2 this.l/2 this.h]*R);
             q2 = ([this.r 0] + [this.L/2 this.l/2 0]*R);

@@ -12,8 +12,7 @@ for i = 1:3
         plot3(trace.position(1,:), trace.position(2,:), trace.position(3,:));
 
         resultat = [resultat; coup trace.t(end) trace.position(end) trace.vitesse(end)];
-    end
-    
+    end   
 end
 
 

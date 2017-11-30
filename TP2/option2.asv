@@ -1,6 +1,0 @@
-function g = option1(q0,t0, obj)
-  forceTot = Forces.Gravite(obj) + Forces.Visqueux(obj, q(1:3;
-  a = forceTot/obj.Masse;
-  g = [a q0(1:3)];
-end
-

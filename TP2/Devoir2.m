@@ -12,7 +12,7 @@ Balle.VitesseAngulaire = wbi;
 
 trace = Trace();
 
-[coup, trace] = Simulation(1, Balle, Obstacles, trace);
+[coup, trace] = Simulation(option, Balle, Obstacles, trace);
 
 tf = trace.t(end);
 rbf = trace.position(:, end)';
