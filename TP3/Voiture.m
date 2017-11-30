@@ -1,17 +1,16 @@
 classdef Voiture
-    %UNTITLED6 Summary of this class goes here
-    %   Detailed explanation goes here
+    % Classe detaillant une voiture.
     
     properties
-        m
-        L
-        l
-        h
-        r
-        rAng
-        v
-        vAng
-        I
+        m % La masse (kg)
+        L % La longueur (m)
+        l % La largeur (m)
+        h % La hauteur (m)
+        r % La position (m)
+        rAng % L'angle par rapport a l'axe x (radians)
+        v % La vitesse (m/s)
+        vAng  % La vitesse angulaire (radians/s)
+        I % Matrice du moment d'intertie.
     end
     
     methods
@@ -25,7 +24,6 @@ classdef Voiture
             voiture.v = v;
             voiture.vAng = vAng;
             voiture.I = [m/12*(l^2 + h^2) 0 0; 0 m/12*(L^2 + h^2) 0; 0 0 m/12*(L^2 + l^2)];
-            %definir plans et coins
         end
         
         function plans = getPlans(this)
@@ -78,11 +76,13 @@ classdef Voiture
         end
         
         function IInv = getIInv(this)
+          %retourne la matrice du moment d'inertie inversee. 
             R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
             IInv = inv(R*this.I*transpose(R));
         end
         
         function dessiner(this, couleur)
+          %dessine la voiture sur un graphique.
             hold on
             R = [cos(-this.rAng) -sin(-this.rAng) 0; sin(-this.rAng) cos(-this.rAng) 0; 0 0 1];
             coin1 = ([this.r 0] + [this.L/2 this.l/2 0]*R);
