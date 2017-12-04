@@ -17,7 +17,7 @@ classdef PrismeOpaque
             obj.c_max = c_max;
         end
         
-        function [intersects, pts, cols] = intersection_ligne(obj, droite)
+        function [pts, cols] = intersection_ligne(obj, droite)
             % Liang–Barsky algorithm
             % https://en.wikipedia.org/wiki/Liang%E2%80%93Barsky_algorithm
             
@@ -32,9 +32,8 @@ classdef PrismeOpaque
             c = [obj.c_min; obj.c_max];
             
             if (any((p == 0) & (q < 0)))
-                intersects = false;
-                pts = 0;
-                cols = 0;
+                pts = [];
+                cols = [];
                 return;
             end
             
@@ -57,13 +56,11 @@ classdef PrismeOpaque
             end
             
             if (u1 > u2)
-                intersects = false;
-                pts = 0;
-                cols = 0;
+                pts = [];
+                cols = [];
                 return;
             end
             
-            intersects = true;
             pts = [droite.r + u1 * droite.u, droite.r + u2 * droite.u];
             cols = [c1, c2];
         end

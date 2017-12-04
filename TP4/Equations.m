@@ -19,7 +19,7 @@ classdef Equations
         % i est la normale unitaire sortante a la surface de reflexion
         % ni est l'indice de réfraction avant le contact
         % nt est l'indice de réfraction apres le contact
-        function ut = Refraction(ui, i, ni, nt)
+        function [ut, rft] = Refraction(ui, i, ni, nt)
             % on veut arriver a : ut = -i * cos(theta_t) + k * sin(theta_t)
             
             % On s'assure que les vecteur ui et i sont unitaire
@@ -39,11 +39,12 @@ classdef Equations
                 sin_t = (ni/nt) * sin_i;
                 cos_t = sqrt(1 - sin_t^2);
                 ut = -i * cos_t + k * sin_t;
+                rft = false;
             else
+                rft = true;
                 ut = [0 0 0]';
             end
         end
     end
-    
 end
 
