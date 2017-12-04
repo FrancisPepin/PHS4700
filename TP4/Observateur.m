@@ -8,7 +8,7 @@ classdef Observateur
     
     methods
         function o = Observateur(posObs, n)
-            o.pos = pos.Obs;
+            o.pos = posObs;
             o.n = n;
         end
     end

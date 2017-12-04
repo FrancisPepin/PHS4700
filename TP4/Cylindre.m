@@ -27,11 +27,14 @@ classdef Cylindre
                             Plan([0;0;-1], obj.centre(3)-obj.hauteur/2), ...
                             droite ...
                             );
-            if (point_top ~= 0) and Cylindre.point_dans_cercle(obj.centre(1:2), obj.rayon, point_top(1:2))
-                points_bases = [points_bases [point_top; 0; 0; 1]];
+            points_bases_norm = [];
+            if (point_top ~= 0) & Cylindre.point_dans_cercle(obj.centre(1:2), obj.rayon, point_top(1:2))
+                points_bases = [points_bases point_top];
+                points_bases_norm = [points_bases_norm [0; 0; 1]];  
             end
-            if (point_bot ~= 0) and Cylindre.point_dans_cercle(obj.centre(1:2), obj.rayon, point_bot(1:2))
-                points_bases = [points_bases [point_bot; 0; 0; -1]];
+            if (point_bot ~= 0) & Cylindre.point_dans_cercle(obj.centre(1:2), obj.rayon, point_bot(1:2))
+                points_bases = [points_bases point_bot];
+                points_bases_norm = [points_bases_norm [0; 0; -1]]; 
             end
             
             
@@ -39,13 +42,14 @@ classdef Cylindre
             points_cotes_normales = [];
             for p = points_cotes
                 if abs(obj.centre(3) - points_cotes(3,:)) < obj.hauteur/2
-                    points_cotes_normales = [points_cotes_normales [p; p(1:2)-obj.centre(1:2); 0]];
+                    temp = zeros(3,1);
+                    temp(1:2) = p(1:2)-obj.centre(1:2);
+                    points_cotes_normales = [points_cotes_normales temp];
                 end
             end
             
-            points_normales = [points_bases points_cotes_normales];
-            points = points_normales(1:3, :);
-            normales = points_normales(4:6, :);
+            points = [points_bases points_cotes];
+            normales = [points_bases_norm points_cotes_normales];
         end
     end
     
