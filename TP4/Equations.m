@@ -43,23 +43,6 @@ classdef Equations
                 ut = [0 0 0]';
             end
         end
-        
-        
-        % bool est le boolean indiquant ou non une collision
-        % r est le point de contact lors d'une collision
-        % droite est la droite incidente
-        % plan est le plan avec lequel on regarde s'il y a collision
-        function [bool, r] = Collision(droite, plan)
-            % Pour voir s'il y a une collision il suffit de faire un
-            % produit vectoriel entre le plan et la droite
-            if(dot(plan.face, droite.u) == 0)
-                bool = false;
-                r = [0 0 0];
-            else
-                bool = true;
-                
-            end
-        end
     end
     
 end

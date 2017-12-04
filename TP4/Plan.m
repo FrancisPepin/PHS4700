@@ -1,22 +1,26 @@
 classdef Plan
-    % Class PLAN 
+    %PLAN Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
-        Face
-        Points
-        Parametres
-        Limites
-        Sommets
+        Coeff % equation du plan : Coeff * X + K = 0
+        K
     end
     
     methods
-        function obj = Plan(face, points, limites, sommets)
-            obj.Face = face;
-            obj.Points = points;
-            obj.Parametres = [face' (-face(1)*points(1) - face(2)*points(2) - face(3)*points(3))];
-            obj.Limites = limites;
-            obj.Sommets = sommets;
+        function obj = Plan(Coeff, K)
+            obj.Coeff = Coeff;
+            obj.K = K;
+        end
+        
+        function point = intersection_plan_ligne(obj, droite)
+            denom = sum(obj.Coeff .* droite.u);
+            if denom == 0
+                point = 0;
+            else
+                t = - (sum(obj.Coeff .* droite.r) + obj.K) / denom;
+                point = droite.r + t * droite.u;
+            end
         end
     end
     
