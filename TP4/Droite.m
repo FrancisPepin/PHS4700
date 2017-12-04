@@ -1,8 +1,8 @@
-classdef Droite < handle
+classdef Droite
     % classe DROITE (page 23/147 chap 7a)
     properties
-        u,      % vecteur unitaire
-        r   % un point quelconque sur la droite
+        u % vecteur unitaire (vertical)
+        r % un point quelconque sur la droite (vertical)
     end
     
     methods
