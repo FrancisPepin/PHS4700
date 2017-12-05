@@ -14,23 +14,39 @@ classdef CalculLimites
     methods
         function obj = CalculLimites(observateur, cylindre, N, M)
             numerateur_theta = norm(cylindre.centre(1:2) - observateur.pos(1:2));
-            denominateur_theta = cylindre.hauteur/2-observateur.pos(3);
+            denominateur_theta = cylindre.centre(3)-observateur.pos(3);
             
-            theta_moins1 = atan((numerateur_theta - cylindre.rayon)/(cylindre.centre(3)+ denominateur_theta));
-            theta_plus1 = atan((numerateur_theta - cylindre.rayon)/(cylindre.centre(3)- denominateur_theta));
+            theta_moins1 = atan2((numerateur_theta - cylindre.rayon), (denominateur_theta - cylindre.hauteur/2));
+            theta_plus1 = atan2((numerateur_theta - cylindre.rayon), (denominateur_theta + cylindre.hauteur/2));
             
-            theta_moins2 = atan((numerateur_theta + cylindre.rayon)/(cylindre.centre(3)+ denominateur_theta));
-            theta_plus2 = atan((numerateur_theta + cylindre.rayon)/(cylindre.centre(3)- denominateur_theta));
+            theta_moins2 = atan2((numerateur_theta + cylindre.rayon), (denominateur_theta - cylindre.hauteur/2));
+            theta_plus2 = atan2((numerateur_theta + cylindre.rayon), (denominateur_theta + cylindre.hauteur/2));
             
-            obj.theta_moins = min(theta_moins1, theta_moins2);
-            obj.theta_plus = max(theta_plus1, theta_plus2);
+            obj.theta_moins = max(theta_moins1, theta_moins2);
+            obj.theta_plus = min(theta_plus1, theta_plus2);
             
+            %% phi
             
-            numerateur_phi = cylindre.centre(2) - cos(pi/4)*cylindre.rayon - observateur.pos(2);
-            denominateur_phi = cos(pi/4)*cylindre.rayon - observateur.pos(1);
+            OC = cylindre.centre(1:2) - observateur.pos(1:2);
+            uOC = OC / norm(OC);
+            uTangent = [uOC(2); -uOC(1)];
             
-            obj.phi_moins = atan(numerateur_phi / (cylindre.centre(1) + denominateur_phi));
-            obj.phi_plus = atan(numerateur_phi / (cylindre.centre(1) - denominateur_phi));
+            R = cylindre.rayon;
+            p = OC - R * uOC;
+            p1 = p + R * uTangent;
+            p2 = p - R * uTangent;
+            
+            phi1 = atan2(p1(2), p1(1));
+            phi2 = atan2(p2(2), p2(1));
+            
+            obj.phi_moins = min(phi1, phi2);
+            obj.phi_plus= max(phi1, phi2);
+            
+%             numerateur_phi = cylindre.centre(2) - observateur.pos(2);
+%             denominateur_phi = cylindre.centre(1) - observateur.pos(1);
+%             
+%             obj.phi_moins = atan2(numerateur_phi - cos(pi/4)*cylindre.rayon  , (denominateur_phi + cos(pi/4)*cylindre.rayon));
+%             obj.phi_plus = atan2(numerateur_phi + cos(pi/4)*cylindre.rayon  , (denominateur_phi - cos(pi/4)*cylindre.rayon));
             
             
             obj.theta_n = CalculTheta(obj, N);
@@ -38,9 +54,8 @@ classdef CalculLimites
         end
         
         function theta_n = CalculTheta(limites, N)
-            array = 1:N;
             out = zeros(1, N);
-            for i = array
+            for i = 1:N
                 theta = limites.theta_moins + ((limites.theta_plus - limites.theta_moins)/(N - 1)) * (i - 1);
                 out(i) = theta;
             end
@@ -48,10 +63,9 @@ classdef CalculLimites
         end
         
         function phi_m = CalculPhi(limites, M)
-            array = 1:M;
             out = zeros(1, M);
-            for i = array
-                phi = limites.phi_moins+ ((limites.phi_plus - limites.phi_moins)/(M - 1)) * (i - 1);
+            for i = 1:M
+                phi = limites.phi_moins + ((limites.phi_plus - limites.phi_moins)/(M - 1)) * (i - 1);
                 out(i) = phi;
             end
             phi_m = out;

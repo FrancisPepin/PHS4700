@@ -1,4 +1,6 @@
 function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
+    
+    hold on
     [arrayPoint, arrayCouleur] = Simulation(poso, nout, nin);
     
     if not(isempty(arrayPoint))
@@ -12,9 +14,9 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
         yi = [];
         zi = [];
         face = [];
+        couleur = [];
     end
     
-    hold on
     scatter3(poso(1), poso(2), poso(3), 'MarkerEdgeColor','k', 'MarkerFaceColor', [0 0 0]);
     scatter3(xi, yi, zi, 16, couleur, 'filled');
     

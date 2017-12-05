@@ -51,6 +51,15 @@ classdef Cylindre
             points = [points_bases points_cotes];
             normales = [points_bases_norm points_cotes_normales];
         end
+        
+        function cylindre_draw(obj)
+            [x, y, z] = cylinder(obj.rayon);
+            z = z * obj.hauteur;
+            x = x + obj.centre(1);
+            y = y + obj.centre(2);
+            z = z + obj.centre(3) - obj.hauteur/2;
+            mesh(x, y, z, 'facealpha', 0);
+        end
     end
     
     methods(Static)
