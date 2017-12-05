@@ -60,7 +60,7 @@ function [t, normale] = closest_normale(pts, droite, normales)
     end
     
     ts = mean((pts - droite.r) ./ droite.u);
-    t = min(ts(ts>0));
+    t = min(ts(ts>1e-10));
     
     if isempty(t)
         t = Inf;
@@ -81,7 +81,7 @@ function [t, couleur] = closest_couleur(pts, droite, couleurs)
     end
     
     ts = mean((pts - droite.r) ./ droite.u);
-    t = min(ts(ts>0));
+    t = min(ts(ts>1e-10));
     
     if isempty(t)
         t = Inf;

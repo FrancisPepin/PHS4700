@@ -68,9 +68,9 @@ classdef Cylindre
             
             det = (2*dot((p-c), u))^2 - 4*norm(u)^2*(norm(p-c)^2 - r^2);
             
-            if det <= -1e-10
+            if det <= 0
                 points = [];
-            elseif abs(det) < 1e-10
+            elseif det == 0
                 t = -2*dot((p-c), u) / (2*norm(u)^2);
                 points = [p + t * u];
             else

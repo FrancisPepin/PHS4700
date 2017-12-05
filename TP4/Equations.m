@@ -21,7 +21,11 @@ classdef Equations
         % nt est l'indice de réfraction apres le contact
         function [ut, rft] = Refraction(ui, i, ni, nt)
             % on veut arriver a : ut = -i * cos(theta_t) + k * sin(theta_t)
-            
+            if (ni == nt)
+                ut = ui;
+                rft = false;
+                return;
+            end
             % On s'assure que les vecteur ui et i sont unitaire
             ui = ui / norm(ui);
             i = i / norm(i);

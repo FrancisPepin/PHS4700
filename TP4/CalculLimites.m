@@ -58,7 +58,6 @@ classdef CalculLimites
         end
         
         function liste = GenererRayons(limites, observateur)
-            %liste = zeros(1, length(limites.phi_m)*length(limites.theta_n));
             liste = [];
             
             for m = 1:length(limites.phi_m)
@@ -67,7 +66,6 @@ classdef CalculLimites
                     p = limites.phi_m(m);
                     u = [sin(t)*cos(p), sin(t)*sin(p), cos(t)]';
                     liste = [ liste Droite(u, observateur.pos)];
-                    %it = it + 1;
                 end
             end
         end
